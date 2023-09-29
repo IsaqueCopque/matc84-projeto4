@@ -13,6 +13,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.matc84demo.entities.User;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class TokenService {
 	
@@ -46,5 +48,12 @@ public class TokenService {
 	
 	private Instant genExpirationDate() {
 		return LocalDateTime.now().plusHours(5).toInstant(ZoneOffset.of("-03:00"));
+	}
+	
+	public static String recoverToken(HttpServletRequest request) {
+		String authHeader = request.getHeader("Authorization");
+		if(authHeader == null)
+			return null;
+		return	authHeader.replace("Bearer ", ""); //retorna apenas o token sem o nome do header
 	}
 }

@@ -3,6 +3,7 @@ package com.matc84demo.services;
 import java.security.SecureRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.matc84demo.entities.User;
@@ -15,7 +16,6 @@ public class UserService {
 	private UserRepository repository;
 	
 	public User insert(User obj) {
-		//to-do: hash password
 		return repository.save(obj);
 	}
 	
@@ -30,6 +30,10 @@ public class UserService {
 		objDb.setEmail(obj.getEmail());
 		objDb.setName(obj.getName());
 		return repository.save(objDb);
+	}
+	
+	public UserDetails findByEmail(String email) {
+		return repository.findByEmail(email);
 	}
 	
 	private String hashPassword(String password) {

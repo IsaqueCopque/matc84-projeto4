@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.matc84demo.entities.User;
 import com.matc84demo.repositories.UserRepository;
 import com.matc84demo.services.TokenService;
 
@@ -33,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		String token = this.recoverToken(request);
+		String token = TokenService.recoverToken(request);
 		if(token != null) {
 			String login = tokenService.validateToken(token);
 			UserDetails user = repository.findByEmail(login);
@@ -45,11 +46,11 @@ public class SecurityFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 	 
-	private String recoverToken(HttpServletRequest request) {
-		String authHeader = request.getHeader("Authorization");
-		if(authHeader == null)
-			return null;
-		return	authHeader.replace("Bearer ", ""); //retorna apenas o token sem o nome do header
-	}
+	/*
+	 * private String recoverToken(HttpServletRequest request) { String authHeader =
+	 * request.getHeader("Authorization"); if(authHeader == null) return null;
+	 * return authHeader.replace("Bearer ", ""); //retorna apenas o token sem o nome
+	 * do header }
+	 */
 	
 }
