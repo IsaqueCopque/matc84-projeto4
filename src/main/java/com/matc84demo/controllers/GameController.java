@@ -40,7 +40,8 @@ public class GameController {
 	 * Parâmetro: exact -> true: exatamente pelo nome, false: contendo nome
 	 */
 	@GetMapping("/name/{name}")
-	public ResponseEntity<List<Game>> findByName(@PathVariable String name, @RequestParam boolean exact){
+	public ResponseEntity<List<Game>> findByName(@PathVariable String name, 
+			@RequestParam(required = false) boolean exact){
 		if(exact) {
 			List<Game> game = new ArrayList<Game>();
 			game.add(service.findByExactName(name));
@@ -60,10 +61,29 @@ public class GameController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Game> updateGame(@PathVariable Long id){
+	public ResponseEntity<Game> updateGame(@PathVariable Long id, @RequestBody Game game){
 		Game obj = service.findById(id);
+		
 		if(obj == null)
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.badRequest().header("Reason", "There is not a game with id "+id+".").build();
+		
+		if(game.getName() != null) {
+			//Name é unique, se houver um com mesmo nome, impede cadastro
+			Game sameName = service.findByExactName(game.getName());
+			
+			if(sameName != null && sameName.getId() != id)
+				return ResponseEntity.badRequest()
+						.header("Reason", "There is already a game with the same name as "+game.getName()+".")
+						.build();
+			else obj.setName(game.getName());
+		}else return ResponseEntity.badRequest().header("Reason", "Game name cannot be null.") .build();
+		
+		if(game.getDescription() != null)
+			obj.setDescription(game.getDescription());
+		else return ResponseEntity.badRequest().header("Reason", "Game description cannot be null.").build();
+					
+		obj.setPicture(game.getPicture());
+		
 		obj = service.saveGame(obj);
 		return ResponseEntity.ok().body(obj);
 	}

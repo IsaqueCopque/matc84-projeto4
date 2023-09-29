@@ -1,11 +1,11 @@
 package com.matc84demo.entities;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -23,14 +23,15 @@ public class Game {
 	@Column(nullable = false)
 	private String name;
 	
+	@Column(nullable = false, length = 2000)
 	private String description;
 	
-	@Lob
-	private byte[] picture;
+	@Column(length = 1000)
+	private String picture;
 	
 	public Game() {}
 	
-	public Game(Long id, String name, String description, byte[] picture) {
+	public Game(Long id, String name, String description, String picture) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -61,11 +62,11 @@ public class Game {
 		this.description = description;
 	}
 
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 }
