@@ -6,10 +6,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.matc84demo.entities.AuthenticationDTO;
 import com.matc84demo.entities.LoginResponseDTO;
@@ -17,7 +19,9 @@ import com.matc84demo.entities.User;
 import com.matc84demo.repositories.UserRepository;
 import com.matc84demo.services.TokenService;
 
-@RestController
+import ch.qos.logback.core.model.Model;
+
+@Controller
 @RequestMapping("auth")
 public class AuthenticationController {
 	
@@ -39,6 +43,15 @@ public class AuthenticationController {
 		String token = tokenService.generateToken((User) auth.getPrincipal());
 		
 		return ResponseEntity.ok(new LoginResponseDTO(token));
+	}
+	
+	/*
+	 * Formulário de cadastro do usuário
+	 */
+	@GetMapping("/register")
+	public String showRegisterPage(Model model) {
+		System.out.println("--> Bateu regsiter get");
+		return "register";
 	}
 	
 	@PostMapping("/register")
