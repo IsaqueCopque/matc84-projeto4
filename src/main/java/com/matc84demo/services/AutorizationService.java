@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.matc84demo.entities.User;
 import com.matc84demo.repositories.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,14 +26,14 @@ public class AutorizationService implements UserDetailsService {
 	
 	
 	/*
-	 * Método para retornarusuário do token passado na requisição
+	 * Método para retornar email do usuário do token passado na requisição
 	 */
-	public User getUserFromToken(HttpServletRequest request) {
+	public String getUserEmailFromToken(HttpServletRequest request) {
 		String token = TokenService.recoverToken(request);
 		if(token == null)
 			throw new SecurityException("A user not logged in acessed a protected route");
 		String email = tokenService.validateToken(token);
-		return (User) repository.findByEmail(email);
+		return email;
 	}
 
 }

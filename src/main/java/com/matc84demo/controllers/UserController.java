@@ -35,7 +35,9 @@ public class UserController {
 	@PutMapping("/update_profile")
 	public ResponseEntity<User> updateUser(@RequestBody AuthenticationDTO auth, HttpServletRequest request){
 		
-		User user = authService.getUserFromToken(request);
+		String email = authService.getUserEmailFromToken(request);
+		
+		User user = (User) service.findByEmail(email);
 		
 		if(auth.name() != null)
 			user.setName(auth.name());
