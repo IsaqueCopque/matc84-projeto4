@@ -31,16 +31,17 @@ public class SecurityConfig {
 		MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector); // Authorization rules can be misconfigured when using multiple servlets
 		return http
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-		.authorizeHttpRequests(authorize -> authorize
+		/*.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/auth/login")).permitAll()
 				.requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/auth/register")).permitAll()
 				.requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/auth/register")).permitAll()
 				.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 				.requestMatchers(mvcMatcherBuilder.pattern("/jsp/**")).permitAll()
 				.anyRequest().authenticated()
-				) 
+				) */
+		.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
 		.csrf(csrf -> csrf.disable()) //AbstractHttpConfigurer::disable
-		.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) //Recupera dados do token
+		//.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) //Recupera dados do token
 		.build();
 	}
 	/*.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()

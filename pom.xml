@@ -13,58 +13,258 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>workshop4</name>
 	<description>Projeto equipe04</description>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
+    <properties>
+
+        <java.version>17</java.version>
+
+        <!-- compile library versions -->
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+        <joinfaces.version>5.2.0-m3</joinfaces.version>
+        <maven-model.version>3.9.5</maven-model.version>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta.validation-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.joinfaces</groupId>
+                <artifactId>joinfaces-dependencies</artifactId>
+                <version>${joinfaces.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-model</artifactId>
+                <version>${maven-model.version}</version>                
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+        <!-- spring -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+       
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency> 
+
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+           <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency> 
+
+        <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<dependency>
+        <!-- postgresql  -->
+
+        <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+        <!-- jakarta -->
+     
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        	
+             <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        </dependency>
 
-		<dependency>
+        <!-- joinfaces -->
+
+        <dependency>
+            <groupId>org.joinfaces</groupId>
+            <artifactId>primefaces-spring-boot-starter</artifactId>
+        </dependency>
+
+         <dependency>
+            <groupId>org.joinfaces</groupId>
+            <artifactId>omnifaces-spring-boot-starter</artifactId>
+        </dependency>
+
+         <dependency>
+            <groupId>org.joinfaces</groupId>
+            <artifactId>security-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.joinfaces</groupId>
+            <artifactId>rewrite-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- others -->
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+  
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+        </dependency>
+
+        	<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>4.4.0</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		
-	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <failOnWarning>true</failOnWarning>
+                        <failOnError>true</failOnError>
+                        <showDeprecation>true</showDeprecation>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.joinfaces</groupId>
+                    <artifactId>joinfaces-maven-plugin</artifactId>
+                    <version>${joinfaces.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>classpath-scan</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                    </configuration>                
+                    <executions>
+                        <execution>
+                            <id>default</id>
+                            <phase>none</phase>
+                        </execution>
+                        <execution>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>verify-integration-test</id>
+                            <goals>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.basepom.maven</groupId>
+                    <artifactId>duplicate-finder-maven-plugin</artifactId>
+                    <version>${duplicate-finder-maven-plugin.version}</version>
+                    <configuration>
+                        <printEqualFiles>false</printEqualFiles>
+                        <failBuildInCaseOfDifferentContentConflict>true</failBuildInCaseOfDifferentContentConflict>
+                        <failBuildInCaseOfEqualContentConflict>false</failBuildInCaseOfEqualContentConflict>
+                        <failBuildInCaseOfConflict>false</failBuildInCaseOfConflict>
+                        <checkCompileClasspath>true</checkCompileClasspath>
+                        <checkRuntimeClasspath>true</checkRuntimeClasspath>
+                        <checkTestClasspath>true</checkTestClasspath>
+                        <ignoredResourcePatterns>
+                            <ignoredResourcePattern>${duplicate.ignoredResourcePattern}</ignoredResourcePattern>
+                        </ignoredResourcePatterns>
+                        <ignoredClassPatterns>
+                            <ignoredClassPattern>${duplicate.ignoredClassPattern}</ignoredClassPattern>
+                        </ignoredClassPatterns>
+                        <skip>false</skip>
+                        <quiet>false</quiet>
+                    </configuration>
+                </plugin>    
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.joinfaces</groupId>
+                <artifactId>joinfaces-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository> 
+            <id>repository.spring.milestone</id> 
+            <name>Spring Milestone Repository</name> 
+            <url>https://repo.spring.io/milestone</url> 
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repository.spring.milestone</id> 
+            <name>Spring Milestone Repository</name> 
+            <url>https://repo.spring.io/milestone</url> 
+        </pluginRepository>
+    </pluginRepositories>
+         
 </project>

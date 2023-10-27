@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core" xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Gamellection</title>
+	<link href="#{resource['images/favicon.ico']}" rel="shortcut icon" />
+	<style>
+		.flex-container{
+			display:flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 10px;
+		}
+		.flex-item{
+			display: flex;
+		}
+	</style>
+</h:head>
+
+<f:view contentType="text/html">
+
+	<h:body>
+		<div class="flex-container" >
+				
+					<p:graphicImage value="images/logo.png" alt="gamellection" 
+					style="width: 170px; height: 150px;"
+					/>
+					
+					<form>
+						<p:panelGrid columns="1" layout="flex" style="border: 1px solid black">
+							<span class="ui-float-label"> 
+								<p:outputLabel for="email-input" value="E-mail" />
+								<p:inputText id="email-input" value="123" />
+							</span>
+							
+							<span class="ui-float-label"> 
+								<p:outputLabel for="password-input" value="Senha" />
+								<p:password id="password-input" value="123" />
+							</span>
+							
+							<p:commandButton id="submit" value="Login" ajax="false" />
+						</p:panelGrid>
+					</form>
+		</div>
+	</h:body>
+</f:view>
+</html>
