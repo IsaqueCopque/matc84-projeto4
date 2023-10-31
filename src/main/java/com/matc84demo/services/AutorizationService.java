@@ -36,5 +36,15 @@ public class AutorizationService implements UserDetailsService {
 		String email = tokenService.validateToken(token);
 		return (User) repository.findByEmail(email);
 	}
+	
+	/*
+	 * Método para retornar usuário do token
+	 */
+	public User getUserFromToken(String token) {
+		if(token == null)
+			throw new SecurityException("A user not logged in acessed a protected route");
+		String email = tokenService.validateToken(token);
+		return (User) repository.findByEmail(email);
+	}
 
 }

@@ -1,6 +1,6 @@
 package com.matc84demo.view;
 
-import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,17 +9,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import com.matc84demo.entities.GameCollection;
 import com.matc84demo.entities.User;
+import com.matc84demo.services.AutorizationService;
+import com.matc84demo.services.GameCollectionService;
 import com.matc84demo.services.TokenService;
 
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.event.ActionEvent;
-import jakarta.faces.view.ViewScoped;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.enterprise.context.SessionScoped;
 
 @Component
-@ViewScoped
-public class LoginMBean   {
+@SessionScoped
+public class LoginMBean extends FatherBean  {
 	
 	static String loginPage = "/login.xhtml";
 	
@@ -30,6 +30,12 @@ public class LoginMBean   {
 	
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	GameCollectionService gameCollectionService;
+	
+	@Autowired
+	AutorizationService authService;
 	
 	private String senha;
 	
@@ -43,8 +49,12 @@ public class LoginMBean   {
 			Authentication auth = this.authenticationManager.authenticate(userNamePassword);
 			String token = tokenService.generateToken((User) auth.getPrincipal());
 			if(token != null) {
-				((HttpServletRequest) (FacesContext.getCurrentInstance().getExternalContext().getRequest()))
-						.getSession().setAttribute("token", token);
+				User user = authService.getUserFromToken(token);
+				List<GameCollection> colecoes = gameCollectionService.findMyCollections(user);
+				
+				guardaAtributoEmSessao("token",token);
+				guardaAtributoEmSessao("colecoes",colecoes);
+				
 				return homePage + "?faces-redirect=true";
 			}
 			return loginPage + "?error=true";
@@ -52,7 +62,7 @@ public class LoginMBean   {
 			return loginPage + "?error=true";
 		}
 	}
-		
+	
 	public String getSenha() {
 		return senha;
 	}

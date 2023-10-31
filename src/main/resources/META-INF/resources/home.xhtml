@@ -24,11 +24,17 @@
 <f:view contentType="text/html">
 
 	<h:body>
-		<div class="flex-container" >
 				
-			<h:outputText value="you're home" />
-					
-		</div>
+	    <p:dataList value="#{homeMBean.colecoes}" var="collec" type="definition">
+	        <f:facet name="header">
+	            Coleções
+	        </f:facet>
+	        <f:facet name="description">
+	        	<h:outputText value="#{collec.name}" style="font-weight: bold;"/>
+	        	<h:outputText value="#{collec.description}" />
+	        </f:facet>
+	    </p:dataList>
+		
 	</h:body>
 	
 </f:view>
