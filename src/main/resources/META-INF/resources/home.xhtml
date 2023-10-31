@@ -26,22 +26,8 @@
 	<h:body>
 		<div class="flex-container" >
 				
-					<p:graphicImage value="images/logo.png" alt="gamellection" 
-					style="width: 170px; height: 150px;"
-					/>
-
-			<p:panelGrid columns="1" layout="grid">
-				<p:outputLabel
-					value="Falha no login: e-mail ou senha inválidos."
-					rendered="${!empty param['error']}" />
-			</p:panelGrid>
-			
-			<h:form id="loginForm" enctype="multipart/form-data">
-				<p:inputText id="username" name="username" required="true" value="#{loginMBean.email}" />
-				<p:password id="password" name="password" required="true" value="#{loginMBean.senha}"/>
-				<p:commandButton  value="Login" action="#{loginMBean.logar}"  />
-			</h:form>
-			
+			<h:outputText value="you're home" />
+					
 		</div>
 	</h:body>
 	
