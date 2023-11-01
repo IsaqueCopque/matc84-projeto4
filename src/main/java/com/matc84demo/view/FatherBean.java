@@ -4,6 +4,13 @@ import jakarta.faces.context.FacesContext;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class FatherBean {
+	
+	static String collectionPage = "collec.xhtml";
+	
+	static String loginPage = "/login.xhtml";
+	
+	static String homePage = "/home.xhtml";
+	
 	protected HttpServletRequest getRequest() {
 		return ((HttpServletRequest) (FacesContext.getCurrentInstance().getExternalContext().getRequest()));
 	}

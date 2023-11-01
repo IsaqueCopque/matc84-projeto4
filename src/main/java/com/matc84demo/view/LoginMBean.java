@@ -21,10 +21,6 @@ import jakarta.enterprise.context.SessionScoped;
 @SessionScoped
 public class LoginMBean extends FatherBean  {
 	
-	static String loginPage = "/login.xhtml";
-	
-	static String homePage = "/home.xhtml";
-	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	

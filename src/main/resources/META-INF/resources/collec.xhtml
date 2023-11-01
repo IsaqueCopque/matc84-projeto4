@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xmlns:h="jakarta.faces.html"
+	xmlns:f="jakarta.faces.core" xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+	<title>Gamellection</title>
+	<link href="#{resource['images/favicon.ico']}" rel="shortcut icon" />
+	<style>
+		.flex-container{
+			display:flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 10px;
+		}
+		.flex-item{
+			display: flex;
+		}
+	</style>
+</h:head>
+
+<f:view contentType="text/html">
+
+	<h:body>
+	
+			<h:form enctype="multipart/form-data">
+					<p:commandButton icon="pi pi-home" style="margin-right:20px;" 
+					title="Home" action="#{homeMBean.voltarHome}"/>
+        	</h:form>
+        	
+        	<h:form enctype="multipart/form-data">
+					<p:commandButton icon="pi pi-plus-circle" style="margin-right:20px;" 
+					title="Home" value="Adicionar Game" action="#{homeMBean.addGame}"/>
+        	</h:form>
+	
+           <h:outputText value="#{homeMBean.selecionado.name}"/>
+           
+           <p:dataList value="#{homeMBean.selecionado.games}" var="game" type="definition">
+
+			<p:fieldset legend="#{game.name}" style="margin-bottom:20px">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:graphicImage url="#{game.picture}" />
+					<h:outputText value="#{game.description}" />
+				</h:panelGrid>
+			</p:fieldset>
+
+		</p:dataList>
+				
+	</h:body>
+	
+</f:view>
+
+</html>
