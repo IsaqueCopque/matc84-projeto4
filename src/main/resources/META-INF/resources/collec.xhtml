@@ -37,7 +37,7 @@
 	
            <h:outputText value="#{homeMBean.selecionado.name}"/>
            
-           <p:dataList value="#{homeMBean.selecionado.games}" var="game" type="definition">
+           <p:dataList value="#{homeMBean.selecionado.games}" var="game" type="definition" emptyMessage="Nenhum game adicionado">
 
 			<p:fieldset legend="#{game.name}" style="margin-bottom:20px">
 				<h:panelGrid columns="2" cellpadding="5">

@@ -25,28 +25,42 @@
 
 	<h:body>
 	
+	
+		<!-- NOVA COLEÇÃO -->
+	
 		<p:commandButton icon="pi pi-plus-circle" style="margin-right:20px;" 
 					title="Nova Coleção" value="Criar Coleção" type="button" 
 					onclick="PF('new-collec-dlg').show();"/>
 
 		<p:dialog header="Nova Coleção" widgetVar="new-collec-dlg" showEffect="fade"
-			hideEffect="drop" height="100">
-		   	<h:form>
+			hideEffect="drop"  height="300">
+		   	<h:form id="new-collec-form">
+		   	
+		   		<p:dataList value="#{homeMBean.erros}" var="err" type="definition" rendered="#{homeMBean.erroValidacao}">
+		   			<h:outputText value="#{err}" style="color: red;"/>
+		   		</p:dataList>
+		   		
+		   		<h:outputText value="#{homeMBean.successMsg}" style="color: green"
+		   		rendered="#{homeMBean.hasSuccessMessage}"/>
+		   	
 				<p:inputText id="name-inpt" placeholder="Nome da Coleção" value="#{homeMBean.selecionado.name}" required="true">
 					<f:validateLength minimum="1"/>
 				</p:inputText>
 				<p:message for="name-inpt" display="icon"/>
 				<h:outputText value="Descrição"/>
 				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="500" 
-				counterTemplate="{0} caracteres restantes." autoResize="false" />
+				counterTemplate="{0} caracteres restantes." autoResize="false" value="#{homeMBean.selecionado.description}" />
 			   	<br />
 			   	<h:outputText id="display" />
-			   	<p:commandButton value="Criar" icon="pi pi-check" update="@form"
+			   	<p:commandButton value="Criar" icon="pi pi-check" update="new-collec-form"
 			   		action="#{homeMBean.criarCollec}" />
 		   	</h:form>
 		</p:dialog>
 
-	    <p:dataList value="#{homeMBean.colecoes}" var="collec" type="definition">
+
+		<!-- COLEÇÕES -->
+
+	    <p:dataList value="#{homeMBean.colecoes}" var="collec" type="definition" id="dlist-collecs" emptyMessage="Nenhuma coleção criada">
 	        <f:facet name="header">
 	            Coleções
 	        </f:facet>
@@ -54,14 +68,55 @@
 	        <f:facet name="description">
 	        	<h:outputText value="#{collec.name}" style="font-weight: bold;"/>
 	        	<h:outputText value="#{collec.description}" />
+	        	
 	        	<h:form enctype="multipart/form-data">
-					<p:commandButton icon="pi pi-arrow-right" style="margin-right:20px;" 
-					title="Ver" action="#{homeMBean.visualizarColecao(collec)}"/>
+					<p:commandButton title="Ver" icon="pi pi-arrow-right"
+					  styleClass="rounded-button ui-button-success ui-button-outlined"
+					  action="#{homeMBean.visualizarColecao(collec)}"
+				    />
 	        	</h:form>
+					
+				<h:form enctype="multipart/form-data" onsubmit="return false;">
+					 <p:commandButton title="Editar" icon="pi pi-pencil"
+					  styleClass="rounded-button ui-button-info ui-button-outlined"
+					  action="#{homeMBean.selecionarColecao(collec)}"
+					  onclick="PF('edit-collec-dlg').show()" 
+					  />
+				 </h:form>
+					  
+		 		<h:form enctype="multipart/form-data">
+					<p:commandButton title="Deletar" icon="pi pi-times" 
+					styleClass="rounded-button ui-button-danger ui-button-outlined" />
+				</h:form>
+					
 			</f:facet>
 	        
-	        
 	    </p:dataList>
+	    
+	    <p:dialog header="Editar" widgetVar="edit-collec-dlg" showEffect="fade"
+			hideEffect="drop"  height="300" id="edt-collec-dlg">
+		   	<h:form id="edit-collec-form">
+		   	
+		   		<p:dataList value="#{homeMBean.erros}" var="err" type="definition" rendered="#{homeMBean.erroValidacao}">
+		   			<h:outputText value="#{err}" style="color: red;"/>
+		   		</p:dataList>
+		   		
+		   		<h:outputText value="#{homeMBean.successMsg}" style="color: green"
+		   		rendered="#{homeMBean.hasSuccessMessage}"/>
+		   	
+				<p:inputText id="name-edt-inpt" placeholder="Nome da Coleção" value="#{homeMBean.selecionado.name}" required="true">
+					<f:validateLength minimum="1"/>
+				</p:inputText>
+				<p:message for="name-edt-inpt" display="icon"/>
+				<h:outputText value="Descrição"/>
+				<p:inputTextarea rows="5" cols="30" counter="display-edt" maxlength="500" 
+				counterTemplate="{0} caracteres restantes." autoResize="false" value="#{homeMBean.selecionado.description}" />
+			   	<br />
+			   	<h:outputText id="display-edt" />
+			   	<p:commandButton value="Editar" icon="pi pi-check" update="edit-collec-form"
+			   		action="#{homeMBean.criarCollec}" />
+		   	</h:form>
+		</p:dialog>
 		
 	</h:body>
 	

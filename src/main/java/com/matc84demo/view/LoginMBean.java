@@ -48,7 +48,7 @@ public class LoginMBean extends FatherBean  {
 				User user = authService.getUserFromToken(token);
 				List<GameCollection> colecoes = gameCollectionService.findMyCollections(user);
 				
-				guardaAtributoEmSessao("token",token);
+				guardaAtributoEmSessao("user",user);
 				guardaAtributoEmSessao("colecoes",colecoes);
 				
 				return homePage + "?faces-redirect=true";

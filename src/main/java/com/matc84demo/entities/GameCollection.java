@@ -32,7 +32,7 @@ public class GameCollection  implements Serializable{
 	@Column
 	private String description;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User creator;
 	
