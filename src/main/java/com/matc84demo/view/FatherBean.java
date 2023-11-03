@@ -11,6 +11,8 @@ public class FatherBean {
 	
 	static String homePage = "/home.xhtml";
 	
+	static String registerPage = "/register.xhtml";
+	
 	protected HttpServletRequest getRequest() {
 		return ((HttpServletRequest) (FacesContext.getCurrentInstance().getExternalContext().getRequest()));
 	}

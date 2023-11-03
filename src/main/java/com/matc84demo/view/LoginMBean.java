@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.matc84demo.entities.GameCollection;
@@ -14,6 +15,7 @@ import com.matc84demo.entities.User;
 import com.matc84demo.services.AutorizationService;
 import com.matc84demo.services.GameCollectionService;
 import com.matc84demo.services.TokenService;
+import com.matc84demo.services.UserService;
 
 import jakarta.enterprise.context.SessionScoped;
 
@@ -23,6 +25,9 @@ public class LoginMBean extends FatherBean  {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -35,10 +40,15 @@ public class LoginMBean extends FatherBean  {
 	
 	private String senha;
 	
+	private String name;
+	
 	private String email;
 	
+	private boolean erroValidacao = false;
+	
+	private String errorMsg;
+	
 	public String logar() {
-		System.out.println("---> Bateu login do Bean");
 		UsernamePasswordAuthenticationToken userNamePassword = new UsernamePasswordAuthenticationToken(email, senha);
 		
 		try {
@@ -59,6 +69,24 @@ public class LoginMBean extends FatherBean  {
 		}
 	}
 	
+	public String registrar() {
+		if(userService.findByEmail(email) != null) {
+			erroValidacao = true;
+			errorMsg = "E-mail já registrado.";
+			return registerPage + "?faces-redirect=true";
+		}
+		if(senha == null  || email == null || name == null) {
+			erroValidacao = true;
+			errorMsg = "E-mail ou senha inválidos.";
+			return registerPage + "?faces-redirect=true";
+		}
+		
+		String senhaEncrypted = new BCryptPasswordEncoder().encode(senha);
+		User novoUser = new User(email,senhaEncrypted,name);
+		novoUser = userService.insert(novoUser);
+		return logar();
+	}
+	
 	public String getSenha() {
 		return senha;
 	}
@@ -73,6 +101,30 @@ public class LoginMBean extends FatherBean  {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isErroValidacao() {
+		return erroValidacao;
+	}
+
+	public void setErroValidacao(boolean erroValidacao) {
+		this.erroValidacao = erroValidacao;
+	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
 	}
 	
 }

@@ -89,7 +89,8 @@ public class HomeMBean extends FatherBean {
 		successMsg = "Coleção criada";
 		colecoes = service.findMyCollections(user);
 		
-		return null;
+		//return null;
+		return homePage + "?faces-redirect=true";
 	}
 	
 	public String editCollec() {

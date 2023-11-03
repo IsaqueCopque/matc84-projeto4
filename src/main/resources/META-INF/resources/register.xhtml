@@ -31,31 +31,50 @@
 			/>
 
 			<p:panelGrid columns="1" layout="grid">
-				<p:outputLabel
-					value="Falha no login: e-mail ou senha inválidos."
-					rendered="${!empty param['error']}" />
+				<p:outputLabel id="errMsg"
+					value="#{loginMBean.errorMsg}"
+					rendered="#{loginMBean.erroValidacao}"
+					style="color: red; font-weight: bold;"
+					 />
 			</p:panelGrid>
 			
 			<div style="border: 1px solid black; padding: 15px; border-radius: 8px">
-				<h:form id="loginForm" enctype="multipart/form-data">
-					<h3>Login</h3>
+				<h:form id="registerForm" enctype="multipart/form-data">
+					<h3>Registrar-se</h3>
+					
 					<div style="display: flex; flex-direction: column; align-items: center; gap: 20px">
+					
 						<div>
 							<p:inputText id="username" name="username" required="true"
 								value="#{loginMBean.email}" placeholder="e-mail" />
 						</div>
+						
 						<div>
-							<p:password id="password" name="password" required="true" value="#{loginMBean.senha}"
-							placeholder="senha"/>
+							<p:inputText id="name" required="true" value="#{loginMBean.name}" placeholder="nome" />
 						</div>
+
 						<div>
-							<p:commandButton  value="Entrar" action="#{loginMBean.logar}"  />
+							<h:panelGrid columns="1" id="matchGrid" >
+								<div style="display: flex; flex-direction: column; justify-content: center;
+									 align-items: center; gap: 10px;">
+									<p:password id="pwd1" value="#{loginMBean.senha}" match="pwd2"
+										placeholder="Senha" required="true" />
+	
+									<p:password id="pwd2" value="#{loginMBean.senha}"
+										placeholder="Confirme a Senha" required="true" />
+								</div>
+							</h:panelGrid>
 						</div>
+						
+						<div>
+							<p:commandButton update="registerForm" value="Registrar" action="#{loginMBean.registrar}" />
+						</div>
+						
 					</div>
 				</h:form>
 			</div>
 			
-			<p:link outcome="register" value="Registrar-se" />
+			<p:link outcome="login.xhtml" value="Login" />
 			
 		</div>
 	</h:body>
