@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.matc84demo.entities.Game;
 import com.matc84demo.entities.GameCollection;
 import com.matc84demo.entities.User;
 import com.matc84demo.services.GameCollectionService;
+import com.matc84demo.services.GameService;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
@@ -19,6 +21,11 @@ public class HomeMBean extends FatherBean {
 	
 	@Autowired
 	GameCollectionService service;
+	
+	@Autowired
+	GameService gameService;
+
+	private Game newGame;
 	
 	private boolean erroValidacao = false;
 	
@@ -116,8 +123,30 @@ public class HomeMBean extends FatherBean {
 		return voltarHome();
 	}
 	
-	public void addGame() {
-		
+	public List<Game> completeGames(String query){
+		query = query.toLowerCase();
+		List<Game> games = gameService.findByName(query);
+		for(Game game  : games) {
+			if(selecionado.getGames().contains(game)) 
+				games.remove(game);
+		}
+		return games;
+	}
+	
+	public String addGame() {
+		if(newGame != null) {
+			selecionado.getGames().add(newGame);
+			service.save(selecionado);
+		}
+		return collectionPage + "?faces-redirect=true";
+	}
+	
+	public String removerGame(Game game) {
+		if(game != null) {
+			selecionado.getGames().remove(game);
+			service.save(selecionado);
+		}
+		return collectionPage + "?faces-redirect=true";
 	}
 	
 	public List<GameCollection> getColecoes() {
@@ -154,6 +183,14 @@ public class HomeMBean extends FatherBean {
 	
 	public boolean getHasSuccessMessage() {
 		return successMsg != null && successMsg.length() > 0;
+	}
+
+	public Game getNewGame() {
+		return newGame;
+	}
+
+	public void setNewGame(Game newGame) {
+		this.newGame = newGame;
 	}
 	
 }

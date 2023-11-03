@@ -2,6 +2,7 @@ package com.matc84demo.entities;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,6 +41,24 @@ public class Game implements Serializable {
 		this.name = name;
 		this.description = description;
 		this.picture = picture;
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Game other = (Game) obj;
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
 	}
 
 	public Long getId() {

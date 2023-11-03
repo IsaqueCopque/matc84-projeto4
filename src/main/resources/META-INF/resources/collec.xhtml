@@ -29,21 +29,58 @@
 					<p:commandButton icon="pi pi-home" style="margin-right:20px;" 
 					title="Home" action="#{homeMBean.voltarHome}"/>
         	</h:form>
+
+		<p:commandButton icon="pi pi-plus-circle"
+			styleClass="ui-button-outlined" style="margin-right:20px;"
+			title="Add" value="Adicionar Game"
+			onclick="PF('add-game-dlg').show()" />
+
+		<p:dialog header="Adicionar Game" widgetVar="add-game-dlg" showEffect="fade"
+			hideEffect="drop"  height="350" width="400" id="add-game-dlg">
+			
+				<h:outputText value="#{homeMBean.successMsg}" style="color: green"
+		   		rendered="#{homeMBean.hasSuccessMessage}"/>
+		   		
+			   	<h:form id="add-game-form">
+			   		<p:outputLabel value="Nome do Game"/>
+				   		 <p:autoComplete id="gameCustom" value="#{homeMBean.newGame}"
+	                                completeMethod="#{homeMBean.completeGames}"
+	                                var="game" itemLabel="#{game.name}" itemValue="#{game}"
+	                                forceSelection="true" scrollHeight="250" converter="#{gameConverter}">
+	                    <p:column>
+	                    	<p:graphicImage url="#{game.picture}"  style="width: 30px; height: 20px"/>
+	                        <h:outputText style="vertical-align: middle; margin-left: .5rem" value="#{game.name}"/>
+	                    </p:column>
+                	</p:autoComplete>
+                	<p:commandButton styleClass="ui-button-outlined" value="Adicionar"
+                	title="Adicionar" action="#{homeMBean.addGame}"/>
+			   	</h:form>
+		   	
+			</p:dialog>
         	
-        	<h:form enctype="multipart/form-data">
-					<p:commandButton icon="pi pi-plus-circle" style="margin-right:20px;" 
-					title="Home" value="Adicionar Game" action="#{homeMBean.addGame}"/>
-        	</h:form>
-	
            <h:outputText value="#{homeMBean.selecionado.name}"/>
            
            <p:dataList value="#{homeMBean.selecionado.games}" var="game" type="definition" emptyMessage="Nenhum game adicionado">
 
 			<p:fieldset legend="#{game.name}" style="margin-bottom:20px">
 				<h:panelGrid columns="2" cellpadding="5">
-					<p:graphicImage url="#{game.picture}" />
+					<p:graphicImage url="#{game.picture}" style="width: 250px; height: 250px"/>
 					<h:outputText value="#{game.description}" />
 				</h:panelGrid>
+				
+				<h:form enctype="multipart/form-data">
+					<p:commandButton title="Remover" icon="pi pi-times" action="#{homeMBean.removerGame(game)}"
+					styleClass="rounded-button ui-button-danger ui-button-outlined">
+						 <p:confirm header="Confirmação" message="Remover game da coleção?"
+                        icon="pi pi-exclamation-triangle" />
+					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+					</p:confirmDialog>
+				</h:form>
 			</p:fieldset>
 
 		</p:dataList>
