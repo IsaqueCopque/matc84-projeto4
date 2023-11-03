@@ -36,11 +36,24 @@
 					rendered="${!empty param['error']}" />
 			</p:panelGrid>
 			
-			<h:form id="loginForm" enctype="multipart/form-data">
-				<p:inputText id="username" name="username" required="true" value="#{loginMBean.email}" />
-				<p:password id="password" name="password" required="true" value="#{loginMBean.senha}"/>
-				<p:commandButton  value="Login" action="#{loginMBean.logar}"  />
-			</h:form>
+			<div style="border: 1px solid black; padding: 15px; border-radius: 8px">
+				<h:form id="loginForm" enctype="multipart/form-data">
+					<h3>Login</h3>
+					<div style="display: flex; flex-direction: column; align-items: center; gap: 20px">
+						<div>
+							<p:inputText id="username" name="username" required="true"
+								value="#{loginMBean.email}" placeholder="e-mail" />
+						</div>
+						<div>
+							<p:password id="password" name="password" required="true" value="#{loginMBean.senha}"
+							placeholder="senha"/>
+						</div>
+						<div>
+							<p:commandButton  value="Entrar" action="#{loginMBean.logar}"  />
+						</div>
+					</div>
+				</h:form>
+			</div>
 			
 		</div>
 	</h:body>
