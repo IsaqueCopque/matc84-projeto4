@@ -24,7 +24,7 @@ public class GameService {
 	}
 	
 	public List<Game> findByName(String name){
-		return repository.findByNameContains(name);
+		return repository.findByNameContainsIgnoreCase(name);
 	}
 	
 	public Game findById(Long id) {

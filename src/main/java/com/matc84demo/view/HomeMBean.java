@@ -86,7 +86,7 @@ public class HomeMBean extends FatherBean {
 		User user = (User)getAtributoEmSessao("user");
 		selecionado.setCreator(user);
 		service.save(selecionado);
-		successMsg = "Coleção criada";
+		//successMsg = "Coleção criada";
 		colecoes = service.findMyCollections(user);
 		
 		//return null;

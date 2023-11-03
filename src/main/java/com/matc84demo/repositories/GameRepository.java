@@ -9,5 +9,5 @@ import com.matc84demo.entities.Game;
 public interface GameRepository extends JpaRepository<Game,Long> {
 	
 	Game findByName(String name);
-	List<Game> findByNameContains(String name);
+	List<Game> findByNameContainsIgnoreCase(String name);
 }

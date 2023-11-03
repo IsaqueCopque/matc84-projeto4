@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en-us" xmlns:h="jakarta.faces.html"
 	xmlns:f="jakarta.faces.core" xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions">
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
 	<title>Gamellection</title>
@@ -25,17 +26,13 @@
 
 	<h:body>
 	
+		<ui:include src="/header.xhtml" />
 	
-		<!-- NOVA COLEÇÃO -->
-	
-		<p:commandButton icon="pi pi-plus-circle" style="margin-right:20px;" 
-					title="Nova Coleção" value="Criar Coleção" type="button" 
-					onclick="PF('new-collec-dlg').show();"/>
-
 		<p:dialog header="Nova Coleção" widgetVar="new-collec-dlg" showEffect="fade"
 			hideEffect="drop"  height="300">
 		   	<h:form id="new-collec-form">
-		   	
+		   		<div style="display: flex; flex-direction: column; gap:10px;">
+		   		
 		   		<p:dataList value="#{homeMBean.erros}" var="err" type="definition" rendered="#{homeMBean.erroValidacao}">
 		   			<h:outputText value="#{err}" style="color: red;"/>
 		   		</p:dataList>
@@ -46,61 +43,95 @@
 				<p:inputText id="name-inpt" placeholder="Nome da Coleção" value="#{homeMBean.selecionado.name}" required="true">
 					<f:validateLength minimum="1"/>
 				</p:inputText>
+				
 				<p:message for="name-inpt" display="icon"/>
+				
 				<h:outputText value="Descrição"/>
-				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="500" 
+				<p:inputTextarea rows="5" cols="30" counter="display" maxlength="255" 
 				counterTemplate="{0} caracteres restantes." autoResize="false" value="#{homeMBean.selecionado.description}" />
 			   	<br />
 			   	<h:outputText id="display" />
 			   	<p:commandButton value="Criar" icon="pi pi-check" update="new-collec-form"
 			   		action="#{homeMBean.criarCollec}" />
+		   		</div>
 		   	</h:form>
 		</p:dialog>
 
-
 		<!-- COLEÇÕES -->
 
-	    <p:dataList value="#{homeMBean.colecoes}" var="collec" type="definition" id="dlist-collecs" emptyMessage="Nenhuma coleção criada">
+	    <p:dataList value="#{homeMBean.colecoes}" var="collec" type="definition"
+	     id="dlist-collecs" emptyMessage="Nenhuma coleção criada" style="margin-top: 10px;">
+	    
 	        <f:facet name="header">
-	            Coleções
+	        	<div style="display: flex; justify-content: space-between;
+	        		align-items: center">
+	        	
+	        		<b>Coleções</b>
+	        		
+	        		<!-- NOVA COLEÇÃO -->
+					<p:commandButton icon="pi pi-plus-circle"
+						style="margin-right:20px;" title="Nova Coleção"
+						value="Criar Coleção" type="button" styleClass="ui-button-outlined"
+						onclick="PF('new-collec-dlg').show();" />
+				</div>
 	        </f:facet>
 	        
 	        <f:facet name="description">
-	        	<h:outputText value="#{collec.name}" style="font-weight: bold;"/>
-	        	<h:outputText value="#{collec.description}" />
-	        	
-	        	<!-- Selecionar button -->
-	        	<h:form enctype="multipart/form-data">
-					<p:commandButton title="Ver" icon="pi pi-arrow-right"
-					  styleClass="rounded-button ui-button-success ui-button-outlined"
-					  action="#{homeMBean.visualizarColecao(collec)}"
-				    />
-	        	</h:form>
-					
-				<!-- Editar button -->
-				<h:form enctype="multipart/form-data" onsubmit="return false;">
-					 <p:commandButton title="Editar" icon="pi pi-pencil"
-					  styleClass="rounded-button ui-button-info ui-button-outlined"
-					  action="#{homeMBean.selecionarColecao(collec)}"
-					  onclick="PF('edit-collec-dlg').show()" 
-					  />
-				 </h:form>
-					  
-				<!-- Deletar Button -->
-		 		<h:form enctype="multipart/form-data">
-					<p:commandButton title="Deletar" icon="pi pi-trash" action="#{homeMBean.deletarCollec(collec)}"
-					styleClass="rounded-button ui-button-danger ui-button-outlined">
-						 <p:confirm header="Confirmação" message="Deletar a coleção?"
-                        icon="pi pi-exclamation-triangle" />
-					</p:commandButton>
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-						<p:commandButton value="Sim" type="button"
-							styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-						<p:commandButton value="Não" type="button"
-							styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
-					</p:confirmDialog>
-				</h:form>
-					
+
+				<p:card style="margin-top: 15px">
+
+					<f:facet name="title">
+        				<h:outputText value="#{collec.name}"/>
+    				</f:facet>
+    				
+    				<h:outputText value="#{collec.description}" />
+    				
+    				<f:facet name="footer">
+						<div style="display:flex; justify-content: space-between; align-items:center;">
+						
+						<div style="display:flex; align-items:center; gap: 10px;">
+							<!-- Selecionar button -->
+							<h:form enctype="multipart/form-data" onsubmit="return false;">
+								<p:commandButton title="Ver" icon="pi pi-arrow-right"
+									styleClass="rounded-button ui-button-success ui-button-outlined"
+									action="#{homeMBean.visualizarColecao(collec)}"
+									style="height: 35px;" />
+							</h:form>
+	
+							<!-- Editar button -->
+							<h:form enctype="multipart/form-data" onsubmit="return false;">
+								<p:commandButton title="Editar" icon="pi pi-pencil"
+									styleClass="rounded-button ui-button-info ui-button-outlined"
+									action="#{homeMBean.selecionarColecao(collec)}"
+									style="height: 35px;" onclick="PF('edit-collec-dlg').show()" />
+							</h:form>
+						</div>
+
+						<div>
+							<!-- Deletar Button -->
+							<h:form enctype="multipart/form-data">
+								<p:commandButton title="Deletar" icon="pi pi-trash"
+									action="#{homeMBean.deletarCollec(collec)}"
+									style="height: 35px;"
+									styleClass="rounded-button ui-button-danger ui-button-outlined">
+									<p:confirm header="Confirmação" message="Deletar a coleção?"
+										icon="pi pi-exclamation-triangle" />
+								</p:commandButton>
+								<p:confirmDialog global="true" showEffect="fade"
+									hideEffect="fade">
+									<p:commandButton value="Sim" type="button"
+										styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+									<p:commandButton value="Não" type="button"
+										styleClass="ui-confirmdialog-no ui-button-secondary"
+										icon="pi pi-times" />
+								</p:confirmDialog>
+							</h:form>
+						</div>
+
+						</div>
+					</f:facet>
+				</p:card>
+				
 			</f:facet>
 	        
 	    </p:dataList>
