@@ -85,6 +85,37 @@ public class HomeMBean extends FatherBean {
 		return null;
 	}
 	
+	public String editCollec() {
+		erros = new ArrayList<String>();
+		if(selecionado.getName() == null || selecionado.getName().length() == 0) {
+			erroValidacao = true;
+			erros.add("Nome da coleção é obrigatório.");
+			return null;
+		}
+		for(GameCollection collec : colecoes) {
+			if(collec.getName() == selecionado.getName() && collec.getId() != selecionado.getId()) {
+				erroValidacao = true;
+				erros.add("Você já possui uma coleção com este nome.");
+				return null;
+			}
+		}
+		
+		User user = (User)getAtributoEmSessao("user");
+		selecionado.setCreator(user);
+		service.save(selecionado);
+		successMsg = "Coleção Editada";
+		colecoes = service.findMyCollections(user);
+		
+		return null;
+	}
+	
+	public String deletarCollec(GameCollection selecionado) {
+		service.deleteGameCollection(selecionado.getId());
+		User user = (User)getAtributoEmSessao("user");
+		colecoes = service.findMyCollections(user);
+		return voltarHome();
+	}
+	
 	public void addGame() {
 		
 	}

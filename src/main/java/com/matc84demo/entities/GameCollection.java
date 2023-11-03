@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,7 +37,7 @@ public class GameCollection  implements Serializable{
 	@JoinColumn(name = "user_id")
 	private User creator;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REMOVE})
 	@JoinTable(name="collection_game", 
 	joinColumns = @JoinColumn(name="game_collection_id"),
 	inverseJoinColumns = @JoinColumn(name="game_id"))

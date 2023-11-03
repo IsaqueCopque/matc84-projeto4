@@ -69,6 +69,7 @@
 	        	<h:outputText value="#{collec.name}" style="font-weight: bold;"/>
 	        	<h:outputText value="#{collec.description}" />
 	        	
+	        	<!-- Selecionar button -->
 	        	<h:form enctype="multipart/form-data">
 					<p:commandButton title="Ver" icon="pi pi-arrow-right"
 					  styleClass="rounded-button ui-button-success ui-button-outlined"
@@ -76,6 +77,7 @@
 				    />
 	        	</h:form>
 					
+				<!-- Editar button -->
 				<h:form enctype="multipart/form-data" onsubmit="return false;">
 					 <p:commandButton title="Editar" icon="pi pi-pencil"
 					  styleClass="rounded-button ui-button-info ui-button-outlined"
@@ -84,9 +86,19 @@
 					  />
 				 </h:form>
 					  
+				<!-- Deletar Button -->
 		 		<h:form enctype="multipart/form-data">
-					<p:commandButton title="Deletar" icon="pi pi-times" 
-					styleClass="rounded-button ui-button-danger ui-button-outlined" />
+					<p:commandButton title="Deletar" icon="pi pi-times" action="#{homeMBean.deletarCollec(collec)}"
+					styleClass="rounded-button ui-button-danger ui-button-outlined">
+						 <p:confirm header="Confirmação" message="Deletar a coleção?"
+                        icon="pi pi-exclamation-triangle" />
+					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+					</p:confirmDialog>
 				</h:form>
 					
 			</f:facet>
@@ -114,7 +126,7 @@
 			   	<br />
 			   	<h:outputText id="display-edt" />
 			   	<p:commandButton value="Editar" icon="pi pi-check" update="edit-collec-form"
-			   		action="#{homeMBean.criarCollec}" />
+			   		action="#{homeMBean.editCollec}" />
 		   	</h:form>
 		</p:dialog>
 		
