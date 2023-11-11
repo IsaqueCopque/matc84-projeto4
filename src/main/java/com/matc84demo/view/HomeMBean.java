@@ -75,11 +75,13 @@ public class HomeMBean extends FatherBean {
 			erros.add("Nome da coleção é obrigatório.");
 			return null;
 		}
-		for(GameCollection collec : colecoes) {
-			if(collec.getName() == selecionado.getName()) {
-				erroValidacao = true;
-				erros.add("Você já possui uma coleção com este nome.");
-				return null;
+		if(colecoes != null){
+			for(GameCollection collec : colecoes) {
+				if(collec.getName() == selecionado.getName()) {
+					erroValidacao = true;
+					erros.add("Você já possui uma coleção com este nome.");
+					return null;
+				}
 			}
 		}
 		
