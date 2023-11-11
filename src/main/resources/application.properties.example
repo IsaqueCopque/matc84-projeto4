@@ -1,0 +1,9 @@
+server.port=8090
+spring.datasource.url=jdbc:postgresql://localhost:5432/gamefolio
+spring.datasource.username=postgres
+spring.datasource.password=myKey123
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+api.security.token.secret=token-secret
+spring.mvc.view.prefix=/jsp/
+spring.mvc.view.suffix=.jsp

@@ -4,7 +4,9 @@
 **MATC84 Laboratório de Programação Web**
 
 Equipe 4  - SpringBoot | JSF | Primefaces
+Projeto prático para demonstração do uso das tecnologias Java Spring e Primefaces em sistemas web.
 
+![arquitetura](ARQ.png)
 
 ## Equipe
 
@@ -17,6 +19,7 @@ Equipe 4  - SpringBoot | JSF | Primefaces
 - postgresql
 - spring-boot-starter-security
 - com.auth0.java-jwt
+- primefaces-spring-boot-starter
 
 ## Entidades
 
